@@ -6,44 +6,22 @@ var config = {
     projectId: "train-times-ceda4",
     storageBucket: "train-times-ceda4.appspot.com",
     messagingSenderId: "599259899697"
-  };
-    firebase.initializeApp(config);
-  
+};
+firebase.initializeApp(config);
+
 var database = firebase.database();
 
 var newTrain = "";
 var newDest = "";
 var newTime = "";
-var nextArrival = "";
-var formatTime = $("#timeTrain").val();
-var minAway = "";
 var newFreq = "";
 
-var a = moment([06]);
-var b = moment([04]);
-var duration = moment.duration(a.diff(b));
-var hours = duration.asHours();
-console.log(hours); // time difference in hours
-
-// var currentTime = moment().format('hh' + ':' + 'mm');
-var trainTime = moment().format('LT');
-var nextTrain = moment.duration()
-
-console.log(formatTime);
-// console.log(currentTime);
-
-
-// console.log(moment([2007, 0, 29]).toNow('m'));
-
-$("#addTrain").on("click", function() {
+$("#addTrain").on("click", function () {
     newTrain = $("#trainName").val();
     newDest = $("#trainDes").val();
     newTime = $("#timeTrain").val();
     newFreq = $("#trainFreq").val();
 
-    // var timeOne = newTime.text(moment().format('LT'));
-    // var timeTwo = newTime
-    
     database.ref().push({
         newTrain: newTrain,
         newDest: newDest,
@@ -53,24 +31,40 @@ $("#addTrain").on("click", function() {
 
 });
 
-database.ref().on("child_added", function(childSnap) {
-    // console.log(childSnap.val().newTrain);
-    // console.log(childSnap.val().newDest);
-    // console.log(childSnap.val().newTime);
-    // console.log(childSnap.val().newFreq);
+database.ref().on("child_added", function (childSnap) {
+    console.log(childSnap.val().newTrain);
+    console.log(childSnap.val().newDest);
+    console.log(childSnap.val().newTime);
+    console.log(childSnap.val().newFreq);
 
-    $("#trainSch").append("<tr><th scope='row'>" + childSnap.val().newTrain + "</th><td>" 
-    + childSnap.val().newDest + "</td><td>" 
-    + childSnap.val().newFreq + "</td><td>" 
-    + childSnap.val().newTime + "</td>");
+    var tFreq = childSnap.val().newFreq;
 
-    var storeTime = childSnap.val().newTime;
-    var timeNow = moment().format('hh' + ':' + 'mm');
-    // var convertTime = moment(storeTime, timeFormat);
-    console.log(timeNow);
+    var userTime = childSnap.val().newTime;
 
+    var userTimeConvert = moment(userTime, "HH:mm").subtract(1, 'years');
+    console.log(userTimeConvert);
 
+    var timeNow = moment();
+    console.log("CURRENT TIME: " + moment(timeNow).format("hh:mm"));
+
+    var timeDiff = moment().diff(moment(userTimeConvert), "minutes");
+    console.log("DIFFERENCE IN TIME: " + timeDiff);
+
+    var newRem = timeDiff % tFreq;
+    console.log(newRem);
+
+    var newArrival = tFreq - newRem;
+    console.log("MINUTES TILL TRAIN: " + newArrival);
+
+    var nextArrival = moment().add(newArrival, "minutes");
+    var arrivalFormat = moment(nextArrival).format("hh:mm");
+    console.log("ARRIVAL TIME: " + arrivalFormat);
+
+    $("#trainSch").append("<tr><th scope='row'>" + childSnap.val().newTrain + "</th><td>"
+        + childSnap.val().newDest + "</td><td>"
+        + childSnap.val().newFreq + "</td><td>"
+        + arrivalFormat + "</td><td>" 
+        + newArrival + "</td>");
 })
 
-$("#test").text(hours);
 
