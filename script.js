@@ -42,23 +42,21 @@ database.ref().on("child_added", function (childSnap) {
     var userTime = childSnap.val().newTime;
 
     var userTimeConvert = moment(userTime, "HH:mm").subtract(1, 'years');
-    console.log(userTimeConvert);
 
     var timeNow = moment();
-    console.log("CURRENT TIME: " + moment(timeNow).format("hh:mm"));
 
     var timeDiff = moment().diff(moment(userTimeConvert), "minutes");
-    console.log("DIFFERENCE IN TIME: " + timeDiff);
+
 
     var newRem = timeDiff % tFreq;
-    console.log(newRem);
+
 
     var newArrival = tFreq - newRem;
-    console.log("MINUTES TILL TRAIN: " + newArrival);
+
 
     var nextArrival = moment().add(newArrival, "minutes");
     var arrivalFormat = moment(nextArrival).format("hh:mm");
-    console.log("ARRIVAL TIME: " + arrivalFormat);
+
 
     $("#trainSch").append("<tr><th scope='row'>" + childSnap.val().newTrain + "</th><td>"
         + childSnap.val().newDest + "</td><td>"
