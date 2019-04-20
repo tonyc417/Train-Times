@@ -17,28 +17,31 @@ var newTime = "";
 var newFreq = "";
 
 if ($("#trainName").val() === "" ) {
-    $("#addTrain").css("opacity", "0.5");
-    $("#addTrain").css("cursor", "default");
+    $("#addTrain").attr('disabled', 'disabled');
 } 
 
 $("#trainName").keyup(function() {
     $("#addTrain").css("opacity", "1");
-    $("#addTrain").css("cursor", "pointer");  
+    $("#addTrain").css("cursor", "pointer");
+    $("#addTrain").removeAttr('disabled');  
 })
 
 $("#trainDes").keyup(function() {
     $("#addTrain").css("opacity", "1");
-    $("#addTrain").css("cursor", "pointer");  
+    $("#addTrain").css("cursor", "pointer");
+    $("#addTrain").removeAttr('disabled');    
 })
 
 $("#timeTrain").keyup(function() {
     $("#addTrain").css("opacity", "1");
-    $("#addTrain").css("cursor", "pointer");  
+    $("#addTrain").css("cursor", "pointer");
+    $("#addTrain").removeAttr('disabled');    
 })
 
 $("#trainFreq").keyup(function() {
     $("#addTrain").css("opacity", "1");
-    $("#addTrain").css("cursor", "pointer");  
+    $("#addTrain").css("cursor", "pointer");
+    $("#addTrain").removeAttr('disabled');    
 })
 
 $("#addTrain").on("click", function () {
@@ -46,7 +49,7 @@ $("#addTrain").on("click", function () {
     newDest = $("#trainDes").val();
     newTime = $("#timeTrain").val();
     newFreq = $("#trainFreq").val();
-
+    
     database.ref().push({
         newTrain: newTrain,
         newDest: newDest,
