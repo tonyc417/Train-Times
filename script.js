@@ -16,6 +16,31 @@ var newDest = "";
 var newTime = "";
 var newFreq = "";
 
+if ($("#trainName").val() === "" ) {
+    $("#addTrain").css("opacity", "0.5");
+    $("#addTrain").css("cursor", "default");
+} 
+
+$("#trainName").keyup(function() {
+    $("#addTrain").css("opacity", "1");
+    $("#addTrain").css("cursor", "pointer");  
+})
+
+$("#trainDes").keyup(function() {
+    $("#addTrain").css("opacity", "1");
+    $("#addTrain").css("cursor", "pointer");  
+})
+
+$("#timeTrain").keyup(function() {
+    $("#addTrain").css("opacity", "1");
+    $("#addTrain").css("cursor", "pointer");  
+})
+
+$("#trainFreq").keyup(function() {
+    $("#addTrain").css("opacity", "1");
+    $("#addTrain").css("cursor", "pointer");  
+})
+
 $("#addTrain").on("click", function () {
     newTrain = $("#trainName").val();
     newDest = $("#trainDes").val();
